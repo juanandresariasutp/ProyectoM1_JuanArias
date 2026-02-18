@@ -1,4 +1,8 @@
 /*Estilos base para el proyecto ColorFly Studio */
+html {
+    font-size: 100%;
+}
+
 body {
     font-family: var(--fuente-principal);
     background-color: var(--color-fondo-principal);

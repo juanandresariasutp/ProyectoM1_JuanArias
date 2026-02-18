@@ -23,14 +23,15 @@
 <body>
 
     <header>
-        <nav>
+        <nav class="main-nav">
             <div class="logo">ColorFly</div>
-            <ul>
+
+            <ul class="nav-links">
                 <li><a href="#inicio">Inicio</a></li>
                 <li><a href="#tutorial">Tutorial</a></li>
                 <li><a href="#fundamentos">Fundamentos</a></li>
                 <li><a href="#faq">FAQ</a></li>
-                <li><a href="#contacto">Contáctame</a></li>
+                <li><a class="nav-cta" href="#contacto">Contáctame</a></li>
             </ul>
         </nav>
     </header>
@@ -38,25 +39,31 @@
     <main>
         <section id="generador">
             <h1>Generador de Paletas de <span class="text-multi">Colores</span></h1>
+            <p class="generador-desc">
+                Encuentre colores de marca y estado con un generador de colores diseñado
+                para crear combinaciones de colores armoniosas para el diseño de UI.
+            </p>
 
-            <div class="palette-grid" id="paletteContainer">
-                <div class="color-card" style="background-color: #FFB347;">
-                    <span class="color-code">#FFB347</span>
-                    <button class="lock-btn">🔒</button>
+            <div class="palette-panel">
+                <div class="palette-grid" id="paletteContainer">
+                    <div class="color-card" style="background-color: #FFB347;">
+                        <span class="color-code">#FFB347</span>
+                        <button class="lock-btn">🔒</button>
+                    </div>
+
                 </div>
 
-            </div>
+                <div class="controls">
+                    <button class="btn-control" onclick="generate()">Generar</button>
 
-            <div class="controls">
-                <button onclick="generate()">Generar</button>
+                    <select class="btn-control" id="quantitySelect" onchange="updateQuantity()">
+                        <option value="6" selected>6 Colores</option>
+                        <option value="8">8 Colores</option>
+                        <option value="9">9 Colores</option>
+                    </select>
 
-                <select id="quantitySelect" onchange="updateQuantity()">
-                    <option value="6">6 Colores</option>
-                    <option value="8">8 Colores</option>
-                    <option value="9">9 Colores</option>
-                </select>
-
-                <button onclick="downloadPalette()">Descargar</button>
+                    <button class="btn-control" onclick="downloadPalette()">Descargar</button>
+                </div>
             </div>
         </section>
 
