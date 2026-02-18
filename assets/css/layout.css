@@ -10,7 +10,7 @@ header {
 .main-nav {
     max-width: 1180px;
     margin: 0 auto;
-    padding: 1rem;
+    padding: 0.7rem 1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -40,13 +40,13 @@ header {
     display: flex;
     align-items: center;
     gap: 18px;
+    font-size: 1.2rem;
 }
 
 .nav-links a {
     text-decoration: none;
     color: var(--color-texto-principal);
     font-family: var(--fuente-parrafo);
-    font-size: 1.4rem;
     font-weight: 500;
     padding: 6px 8px;
     border-radius: var(--borde-redondeado);
