@@ -137,9 +137,26 @@ function renderPalette() {
 		colorMeta.appendChild(hslLabel);
 		colorMeta.appendChild(hslValue);
 
+		card.style.cursor = 'pointer';
+		card.setAttribute('title', `Clic para copiar ${color}`);
+		card.addEventListener('click', (event) => {
+			if (event.target.closest('.lock-btn')) {
+				return;
+			}
+			copyColorToClipboard(color);
+		});
+
 		card.appendChild(preview);
 		card.appendChild(colorMeta);
 		container.appendChild(card);
+	});
+}
+
+function copyColorToClipboard(color) {
+	navigator.clipboard.writeText(color).then(() => {
+		showToast(`✅ ${color} copiado al portapapeles`);
+	}).catch(() => {
+		showToast('No se pudo copiar el color');
 	});
 }
 
@@ -187,7 +204,14 @@ function updateQuantity() {
 }
 
 function downloadPalette() {
-	const content = currentPalette.join('\n');
+	const lines = currentPalette.map((color, index) => {
+		const hsl = hexToHsl(color).replace(/\n/g, ' ');
+		return `Color ${index + 1}\nHEX: ${color}\nHSL: ${hsl}\n`;
+	});
+
+	const header = `ColorFly Studio — Paleta generada el ${new Date().toLocaleDateString('es-ES')}\n${'─'.repeat(40)}\n\n`;
+	const content = header + lines.join('\n');
+
 	const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
 	const url = URL.createObjectURL(blob);
 
@@ -199,6 +223,7 @@ function downloadPalette() {
 	document.body.removeChild(link);
 
 	URL.revokeObjectURL(url);
+	showToast('⬇️ Paleta descargada correctamente');
 }
 
 window.generate = generate;
@@ -209,3 +234,5 @@ document.addEventListener('DOMContentLoaded', () => {
 	updateQuantity();
 	generate();
 });
+
+
