@@ -129,6 +129,13 @@ header {
     border-radius: 10px;
     box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.4);
 }
+.color-card:hover {
+    box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.1);
+    /*añade el fade in */
+    transform: scale(1.07);
+    border: 3px solid var(--color-naranja-principal);
+    
+}
 
 .color-preview {
     position: relative;
@@ -317,3 +324,4 @@ header {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
