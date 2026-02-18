@@ -1,18 +1,21 @@
 /* ...existing code... */
 
 header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     padding: var(--espaciado-medio);
-    background: var(--color-fondo-principal);
 }
 
 .main-nav {
     max-width: 1180px;
     margin: 0 auto;
-    padding: var(--espaciado-pequeno) 12px;
+    padding: 1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 24px;
+    z-index: 100;
 
     background: var(--color-fondo-contenedor);
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
@@ -20,7 +23,7 @@ header {
 }
 
 .logo {
-    padding: 4px 10px;
+    padding: 0.5rem 2rem;
     border-radius: var(--borde-redondeado);
     background: var(--color-oscuro-fuerte);
     color: var(--color-texto-sobre-oscuro);
@@ -175,6 +178,14 @@ header {
     cursor: pointer;
     font-size: 1.5rem;
     color: var(--color-texto-sobre-oscuro);
+}
+
+.lock-btn img{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
 }
 
 .controls {
