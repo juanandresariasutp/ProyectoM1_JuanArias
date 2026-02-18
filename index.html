@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Galada&family=Host+Grotesk:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/variables.css">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/pages.css">
+    <title>ColorFly - Generador de Paletas</title>
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">ColorFly</div>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#tutorial">Tutorial</a></li>
+                <li><a href="#fundamentos">Fundamentos</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#contacto">Contáctame</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="generador">
+            <h1>Generador de Paletas de <span class="text-multi">Colores</span></h1>
+
+            <div class="palette-grid" id="paletteContainer">
+                <div class="color-card" style="background-color: #FFB347;">
+                    <span class="color-code">#FFB347</span>
+                    <button class="lock-btn">🔒</button>
+                </div>
+
+            </div>
+
+            <div class="controls">
+                <button onclick="generate()">Generar</button>
+
+                <select id="quantitySelect" onchange="updateQuantity()">
+                    <option value="6">6 Colores</option>
+                    <option value="8">8 Colores</option>
+                    <option value="9">9 Colores</option>
+                </select>
+
+                <button onclick="downloadPalette()">Descargar</button>
+            </div>
+        </section>
+
+        <section id="ejemplo-visual">
+            <div class="content">
+                <h2>Ejemplo Visual</h2>
+                <p>Te brindamos una representación real...</p>
+                <button aria-label="Generar nueva paleta">
+
+            </div>
+            <figure class="preview-mockup">
+            </figure>
+        </section>
+
+        <section id="fundamentos">
+            <figure>
+            </figure>
+            <div class="content">
+                <h2>Fundamentos de la teoría del color</h2>
+                <p>La teoría del color es una excelente manera...</p>
+                <a href="#" class="btn-more">Más información</a>
+            </div>
+        </section>
+
+        <section class="cta-professional">
+            <h2>¿Necesitas un Profesional?</h2>
+            <p>Si deseas llegar a un resultado mucho más elaborado...</p>
+            <button>Contacto</button>
+        </section>
+
+        <section id="faq">
+            <h2>Preguntas Frecuentes</h2>
+            <details>
+                <summary>¿Podrías proporcionar más detalles...? <span class="icon"></span></summary>
+                <p>Aquí va la respuesta a la pregunta frecuente.</p>
+            </details>
+            <details>
+                <summary>¿Podrías proporcionar más detalles...? <span class="icon"></span></summary>
+                <p>Aquí va la respuesta a la pregunta frecuente.</p>
+            </details>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-logo">ColorFly</div>
+        <p>Copyright, todos los derechos reservados 2026 - Juan Andrés Arias Tascón</p>
+        <nav>
+            <a href="#inicio">Inicio</a>
+            <a href="#tutorial">Tutorial</a>
+            <a href="#fundamentos">Fundamentos</a>
+            <a href="#faq">FAQ</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
+    </footer>
+    <script src="assets/js/main.js" defer></script>
+</body>
+
+</html>

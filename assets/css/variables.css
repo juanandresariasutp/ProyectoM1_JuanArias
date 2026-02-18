@@ -1,0 +1,38 @@
+/* Variables CSS para el proyecto ColorFly Studio */
+:root {
+    /* Colores */
+    --color-fondo-principal: #F4F6F8;
+    --color-fondo-contenedor: #FFFFFF;
+    --color-texto-principal: #1A1A1A;
+    --color-texto-secundario: #6B7280;
+    --color-borde-suave: #E5E7EB;
+
+    /* Azul (Interacción) */
+    --color-azul-interaccion: #2563EB;
+    --color-azul-hover: #1D4ED8;
+
+    /* Naranja (Acción Principal) */
+    --color-naranja-principal: #F97316;
+    --color-naranja-hover: #EA580C;
+
+    /* Oscuro Fuerte */
+    --color-oscuro-fuerte: #111827;
+    --color-texto-sobre-oscuro: #FFFFFF;
+
+    /* Tipografía */
+    --fuente-titulo: 'Host Grotesk', sans-serif;
+    --fuente-parrafo: 'Poppins', sans-serif;
+    --fuente-decorativa: 'Galada', cursive;
+    --fuente-principal: var(--fuente-titulo);
+    --fuente-secundaria: var(--fuente-parrafo);
+
+    /* Espaciado */
+    --espaciado-pequeno: 8px;
+    --espaciado-medio: 16px;
+    --espaciado-grande: 32px;
+
+    /* Bordes */
+    --borde-redondeado: 8px;
+}
+
+/**/
