@@ -8,6 +8,47 @@ function randomHexColor() {
 	return `#${value.toString(16).padStart(6, '0').toUpperCase()}`;
 }
 
+function hexToHsl(hexColor) {
+	const hex = hexColor.replace('#', '');
+	const red = parseInt(hex.substring(0, 2), 16) / 255;
+	const green = parseInt(hex.substring(2, 4), 16) / 255;
+	const blue = parseInt(hex.substring(4, 6), 16) / 255;
+
+	const max = Math.max(red, green, blue);
+	const min = Math.min(red, green, blue);
+	const delta = max - min;
+
+	let hue = 0;
+	let saturation = 0;
+	const lightness = (max + min) / 2;
+
+	if (delta !== 0) {
+		saturation = delta / (1 - Math.abs(2 * lightness - 1));
+
+		switch (max) {
+			case red:
+				hue = ((green - blue) / delta) % 6;
+				break;
+			case green:
+				hue = (blue - red) / delta + 2;
+				break;
+			default:
+				hue = (red - green) / delta + 4;
+				break;
+		}
+	}
+
+	hue = Math.round(hue * 60);
+	if (hue < 0) {
+		hue += 360;
+	}
+
+	const satPercent = Math.round(saturation * 100);
+	const lightPercent = Math.round(lightness * 100);
+
+	return `hsl(${hue},\n${satPercent}%,\n${lightPercent}%)`;
+}
+
 function buildPalette() {
 	if (currentPalette.length !== paletteSize) {
 		const resizedPalette = [];
@@ -58,21 +99,46 @@ function renderPalette() {
 	currentPalette.forEach((color, index) => {
 		const card = document.createElement('div');
 		card.className = 'color-card';
-		card.style.backgroundColor = color;
 
-		const code = document.createElement('span');
-		code.className = 'color-code';
-		code.textContent = color;
+		const preview = document.createElement('div');
+		preview.className = 'color-preview';
+		preview.style.backgroundColor = color;
+
+		const colorMeta = document.createElement('div');
+		colorMeta.className = 'color-meta';
+
+		const hexLabel = document.createElement('p');
+		hexLabel.className = 'color-format-label';
+		hexLabel.textContent = 'HEX';
+
+		const hexValue = document.createElement('p');
+		hexValue.className = 'color-format-value';
+		hexValue.textContent = color;
+
+		const hslLabel = document.createElement('p');
+		hslLabel.className = 'color-format-label';
+		hslLabel.textContent = 'HSL';
+
+		const hslValue = document.createElement('p');
+		hslValue.className = 'color-format-value';
+		hslValue.classList.add('color-format-value-hsl');
+		hslValue.textContent = hexToHsl(color);
 
 		const lockBtn = document.createElement('button');
 		lockBtn.className = 'lock-btn';
 		lockBtn.type = 'button';
-		lockBtn.textContent = lockedColors.has(index) ? '🔒' : '🔓';
+        lockBtn.innerHTML = lockedColors.has(index) ? '<img src="./assets/images/candado-cerrado.svg" alt="Bloquear">' : '<img src="./assets/images/candado-abierto.svg" alt="Desbloquear">';
 		lockBtn.setAttribute('aria-label', lockedColors.has(index) ? 'Desbloquear color' : 'Bloquear color');
 		lockBtn.addEventListener('click', () => toggleLock(index));
 
-		card.appendChild(code);
-		card.appendChild(lockBtn);
+		preview.appendChild(lockBtn);
+		colorMeta.appendChild(hexLabel);
+		colorMeta.appendChild(hexValue);
+		colorMeta.appendChild(hslLabel);
+		colorMeta.appendChild(hslValue);
+
+		card.appendChild(preview);
+		card.appendChild(colorMeta);
 		container.appendChild(card);
 	});
 }
