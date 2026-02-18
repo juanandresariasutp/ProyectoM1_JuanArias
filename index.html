@@ -45,17 +45,8 @@
             </p>
 
             <div class="palette-panel">
-                <div class="palette-grid" id="paletteContainer">
-                    <div class="color-card">
-                        <span class="color-code">#FFB347</span>
-                        <button class="lock-btn">🔒</button>
-                    </div>
-
-                </div>
-
                 <div class="controls">
                     <button class="btn-control" onclick="generate()">Generar Paleta 🛠️</button>
-
                     <select class="btn-control" id="quantitySelect" onchange="updateQuantity()">
                         <option value="6" selected>Cantidad colores: 6</option>
                         <option value="8">Cantidad colores: 8</option>
@@ -64,6 +55,15 @@
 
                     <button class="btn-control" onclick="downloadPalette()">Descargar⬇️</button>
                 </div>
+                <div class="palette-grid" id="paletteContainer">
+                    <div class="color-card">
+                        <span class="color-code">#FFB347</span>
+                        <button class="lock-btn">🔒</button>
+                    </div>
+
+                </div>
+
+
             </div>
         </section>
 
