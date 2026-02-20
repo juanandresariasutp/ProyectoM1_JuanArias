@@ -584,6 +584,8 @@ footer {
         width: 100%;
 }
 
+}
+
 @media (max-width: 768px) {
     .palette-grid {
         grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -617,6 +619,29 @@ footer {
 @media (max-width: 480px) {
     .palette-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+    footer {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    footer .footer-logo {
+        order: 1;
+    }
+
+    footer .footer-menu {
+        order: 2;
+    }
+
+    footer p {
+        order: 3;
+    }
+    
+
+
+    footer .footer-menu {
+        justify-content: center;
+        flex-direction: column;
     }
 }
 
