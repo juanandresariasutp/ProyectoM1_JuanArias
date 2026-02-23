@@ -245,6 +245,20 @@ header {
 .btn-control:hover {
     background: var(--color-azul-hover);
 }
+.btn-control-generar {
+    border: none;
+    border-radius: var(--borde-redondeado);
+    padding: 10px 18px;
+    font-family: var(--fuente-parrafo);
+    font-size: 1.1rem;
+    color: var(--color-texto-sobre-oscuro);
+    background: var(--color-azul-interaccion);
+    cursor: pointer;
+}
+
+.btn-control-generar:hover {
+    background: var(--color-azul-hover);
+}
 
 .control-group {
     display: inline-flex;

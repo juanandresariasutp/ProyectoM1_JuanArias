@@ -46,7 +46,6 @@
 
             <div class="palette-panel">
                 <div class="controls">
-                    <button class="btn-control" onclick="generate()">Generar Paleta 🛠️</button>
                     <div class="control-group" data-control="quantity" aria-label="Tamano de paleta">
                         <button class="control-option" type="button" data-value="6" onclick="setQuantity(6)">6 colores</button>
                         <button class="control-option" type="button" data-value="8" onclick="setQuantity(8)">8 colores</button>
@@ -56,8 +55,8 @@
                         <button class="control-option" type="button" data-value="hex" onclick="setFormat('hex')">HEX</button>
                         <button class="control-option" type="button" data-value="hsl" onclick="setFormat('hsl')">HSL</button>
                     </div>
-
-                    <button class="btn-control" onclick="downloadPalette()">Descargar⬇️</button>
+                    <button class="btn-control-generar" onclick="generate()">Generar Paleta 🛠️</button>
+                    <button class="btn-control-generar" onclick="downloadPalette()">Descargar⬇️</button>
                 </div>
                 <div class="palette-grid" id="paletteContainer">
                 </div>
