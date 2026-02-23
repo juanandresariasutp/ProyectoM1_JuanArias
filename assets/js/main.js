@@ -166,8 +166,16 @@ function updateVisualExample() {
 
 	previewBlocks.forEach((block) => {
 		const index = Number(block.dataset.previewColor) || 0;
-		const color = currentPalette[index % currentPalette.length];
-		block.style.backgroundColor = color;
+		const color = currentPalette[index];
+		const hasColor = Boolean(color);
+
+		block.classList.toggle('is-hidden-preview', !hasColor);
+
+		if (hasColor) {
+			block.style.backgroundColor = color;
+		} else {
+			block.style.backgroundColor = 'transparent';
+		}
 	});
 }
 

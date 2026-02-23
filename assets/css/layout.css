@@ -318,7 +318,8 @@ header {
 .mockup-banner,
 .mockup-block,
 .mockup-column-right,
-.mockup-footer {
+.mockup-footer,
+.mockup-extra-block {
     border-radius: var(--borde-redondeado);
     transition: background-color 0.25s ease;
 }
@@ -352,6 +353,20 @@ header {
 
 .mockup-footer {
     height: 52px;
+}
+
+.mockup-extra-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+}
+
+.mockup-extra-block {
+    height: 40px;
+}
+
+.is-hidden-preview {
+    display: none;
 }
 
 .fundamentos-section {
