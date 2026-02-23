@@ -167,6 +167,15 @@ function renderPalette() {
 		return;
 	}
 
+	if (!currentPalette.length) {
+		container.innerHTML = '';
+		const emptyState = document.createElement('div');
+		emptyState.className = 'palette-empty';
+		emptyState.textContent = 'Selecciona el formato, el tamaño y da clic en "Generar Paleta".';
+		container.appendChild(emptyState);
+		return;
+	}
+
 	container.style.setProperty('--palette-columns', String(paletteSize));
 
 	container.innerHTML = '';
@@ -301,9 +310,6 @@ function setQuantity(value, silent = false) {
 	paletteSize = Number(value) || 6;
 	syncControlGroup('quantity', paletteSize);
 
-	buildPalette();
-	renderPalette();
-
 	if (!silent) {
 		showToast(`Cantidad actualizada a ${paletteSize} colores`);
 	}
@@ -312,9 +318,6 @@ function setQuantity(value, silent = false) {
 function setFormat(value, silent = false) {
 	paletteFormat = value === 'hsl' ? 'hsl' : 'hex';
 	syncControlGroup('format', paletteFormat);
-
-	buildPalette();
-	renderPalette();
 
 	if (!silent) {
 		showToast(`Formato actual: ${paletteFormat.toUpperCase()}`);
@@ -352,7 +355,7 @@ window.downloadPalette = downloadPalette;
 document.addEventListener('DOMContentLoaded', () => {
 	setFormat(paletteFormat, true);
 	setQuantity(paletteSize, true);
-	generate();
+	renderPalette();
 });
 
 

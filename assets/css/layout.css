@@ -119,6 +119,21 @@ header {
     padding: 1rem;
 }
 
+.palette-empty {
+    grid-column: 1 / -1;
+    background: var(--color-fondo-contenedor);
+    border-radius: 12px;
+    border: 1px dashed var(--color-borde-suave);
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: var(--fuente-parrafo);
+    color: var(--color-texto-secundario);
+    font-size: 1.1rem;
+}
+
 .color-card {
     min-height: 300px;
     height: 100%;
