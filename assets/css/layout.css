@@ -260,6 +260,21 @@ header {
     background: var(--color-azul-hover);
 }
 
+.btn-control-guardar {
+    border: none;
+    border-radius: var(--borde-redondeado);
+    padding: 10px 18px;
+    font-family: var(--fuente-parrafo);
+    font-size: 1.1rem;
+    color: var(--color-texto-sobre-oscuro);
+    background: rgb(35, 161, 35);
+    cursor: pointer;
+}
+
+.btn-control-guardar:hover {
+    background: rgb(22, 122, 22);
+}
+
 .control-group {
     display: inline-flex;
     align-items: center;
