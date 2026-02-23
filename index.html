@@ -57,6 +57,7 @@
                     </div>
                     <button class="btn-control-generar" onclick="generate()">Generar Paleta 🛠️</button>
                     <button class="btn-control-generar" onclick="downloadPalette()">Descargar⬇️</button>
+                    <button class="btn-control-generar" onclick="savePalette()">Guardar 💾</button>
                 </div>
                 <div class="palette-grid" id="paletteContainer">
                 </div>
@@ -91,6 +92,14 @@
                     </div>
                 </div>
             </div>
+        </section>
+
+        <section id="paletas-guardadas">
+            <div class="saved-header">
+                <h2>Paletas guardadas</h2>
+                <button class="btn-control" type="button" onclick="clearSavedPalettes()">Limpiar guardadas</button>
+            </div>
+            <div class="saved-list" id="savedPalettesList"></div>
         </section>
 
         <section class="fundamentos-section" id="fundamentos">

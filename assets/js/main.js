@@ -3,6 +3,7 @@ let currentPalette = [];
 let paletteSize = 6;
 let paletteFormat = 'hex';
 let toastTimeoutId = null;
+const SAVED_PALETTES_KEY = 'colorfly.savedPalettes';
 
 function randomHexColor() {
 	const value = Math.floor(Math.random() * 0xffffff);
@@ -266,6 +267,147 @@ function updateVisualExample() {
 	});
 }
 
+function getSavedPalettes() {
+	try {
+		const raw = localStorage.getItem(SAVED_PALETTES_KEY);
+		const parsed = raw ? JSON.parse(raw) : [];
+		return Array.isArray(parsed) ? parsed : [];
+	} catch (error) {
+		return [];
+	}
+}
+
+function setSavedPalettes(palettes) {
+	localStorage.setItem(SAVED_PALETTES_KEY, JSON.stringify(palettes));
+}
+
+function renderSavedPalettes() {
+	const container = document.getElementById('savedPalettesList');
+	if (!container) {
+		return;
+	}
+
+	const palettes = getSavedPalettes();
+	container.innerHTML = '';
+
+	if (!palettes.length) {
+		const emptyState = document.createElement('div');
+		emptyState.className = 'saved-empty';
+		emptyState.textContent = 'Aún no hay paletas guardadas.';
+		container.appendChild(emptyState);
+		return;
+	}
+
+	palettes.forEach((palette) => {
+		const card = document.createElement('div');
+		card.className = 'saved-card';
+
+		const swatches = document.createElement('div');
+		swatches.className = 'saved-swatches';
+
+		palette.colors.forEach((color) => {
+			const swatch = document.createElement('div');
+			swatch.className = 'saved-swatch';
+			swatch.style.backgroundColor = color;
+			swatches.appendChild(swatch);
+		});
+
+		const meta = document.createElement('div');
+		meta.className = 'saved-meta';
+		const formatLabel = document.createElement('strong');
+		formatLabel.textContent = `Formato: ${palette.format.toUpperCase()}`;
+		const sizeLabel = document.createElement('span');
+		sizeLabel.textContent = `Tamaño: ${palette.size} colores`;
+		const dateLabel = document.createElement('span');
+		dateLabel.textContent = `Guardada: ${new Date(palette.createdAt).toLocaleString('es-ES')}`;
+
+		meta.appendChild(formatLabel);
+		meta.appendChild(sizeLabel);
+		meta.appendChild(dateLabel);
+
+		const deleteBtn = document.createElement('button');
+		deleteBtn.type = 'button';
+		deleteBtn.className = 'saved-delete-btn';
+		deleteBtn.textContent = 'Eliminar';
+		deleteBtn.setAttribute('aria-label', 'Eliminar paleta guardada');
+		deleteBtn.addEventListener('click', () => deleteSavedPalette(palette.id));
+
+		const downloadBtn = document.createElement('button');
+		downloadBtn.type = 'button';
+		downloadBtn.className = 'saved-download-btn';
+		downloadBtn.textContent = 'Descargar';
+		downloadBtn.setAttribute('aria-label', 'Descargar paleta guardada');
+		downloadBtn.addEventListener('click', () => downloadSavedPalette(palette));
+
+		const actions = document.createElement('div');
+		actions.className = 'saved-actions';
+		actions.appendChild(deleteBtn);
+		actions.appendChild(downloadBtn);
+
+		card.appendChild(swatches);
+		card.appendChild(meta);
+		card.appendChild(actions);
+		container.appendChild(card);
+	});
+}
+
+function deleteSavedPalette(id) {
+	const palettes = getSavedPalettes();
+	const updatedPalettes = palettes.filter((palette) => palette.id !== id);
+	setSavedPalettes(updatedPalettes);
+	renderSavedPalettes();
+	showToast('Paleta eliminada');
+}
+
+function savePalette() {
+	if (!currentPalette.length) {
+		showToast('Genera una paleta antes de guardarla');
+		return;
+	}
+
+	const palettes = getSavedPalettes();
+	const newPalette = {
+		id: Date.now(),
+		colors: [...currentPalette],
+		format: paletteFormat,
+		size: paletteSize,
+		createdAt: new Date().toISOString()
+	};
+
+	setSavedPalettes([newPalette, ...palettes]);
+	renderSavedPalettes();
+	showToast('Paleta guardada');
+}
+
+function clearSavedPalettes() {
+	setSavedPalettes([]);
+	renderSavedPalettes();
+	showToast('Paletas guardadas eliminadas');
+}
+
+function downloadSavedPalette(palette) {
+	const lines = palette.colors.map((color, index) => {
+		const hsl = hexToHsl(color).replace(/\n/g, ' ');
+		return `Color ${index + 1}\nHEX: ${color}\nHSL: ${hsl}\n`;
+	});
+
+	const header = `ColorFly Studio — Paleta guardada (${palette.format.toUpperCase()})\n${'─'.repeat(40)}\n\n`;
+	const content = header + lines.join('\n');
+
+	const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+	const url = URL.createObjectURL(blob);
+
+	const link = document.createElement('a');
+	link.href = url;
+	link.download = `palette-colorfly-${palette.id}.txt`;
+	document.body.appendChild(link);
+	link.click();
+	document.body.removeChild(link);
+
+	URL.revokeObjectURL(url);
+	showToast('⬇️ Paleta descargada');
+}
+
 function copyColorToClipboard(color) {
 	navigator.clipboard.writeText(color).then(() => {
 		showToast(`✅ ${color} copiado al portapapeles`);
@@ -351,11 +493,14 @@ window.generate = generate;
 window.setQuantity = setQuantity;
 window.setFormat = setFormat;
 window.downloadPalette = downloadPalette;
+window.savePalette = savePalette;
+window.clearSavedPalettes = clearSavedPalettes;
 
 document.addEventListener('DOMContentLoaded', () => {
 	setFormat(paletteFormat, true);
 	setQuantity(paletteSize, true);
 	renderPalette();
+	renderSavedPalettes();
 });
 
 
