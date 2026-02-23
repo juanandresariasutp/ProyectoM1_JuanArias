@@ -168,6 +168,10 @@ header {
     margin: 0;
 }
 
+.color-format-label-active {
+    color: #EF4444;
+}
+
 .color-format-value {
     font-family: var(--fuente-parrafo);
     color: var(--color-texto-principal);
@@ -227,7 +231,8 @@ header {
     background: var(--color-azul-hover);
 }
 
-#quantitySelect.btn-control {
+#quantitySelect.btn-control,
+#formatSelect.btn-control {
     text-align: left;
     min-width: 130px;
     padding-right: 0.5rem;
@@ -237,11 +242,13 @@ header {
     background-size: 1.2rem;
 }
 
-#quantitySelect.btn-control:hover {
+#quantitySelect.btn-control:hover,
+#formatSelect.btn-control:hover {
     background-color: var(--color-azul-hover);
 }
 
-#quantitySelect.btn-control:focus {
+#quantitySelect.btn-control:focus,
+#formatSelect.btn-control:focus {
     outline: none;
     background-color: var(--color-oscuro-fuerte);
     border-color: var(--color-azul-interaccion);

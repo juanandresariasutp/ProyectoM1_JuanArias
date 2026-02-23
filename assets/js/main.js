@@ -1,11 +1,73 @@
 const lockedColors = new Set();
 let currentPalette = [];
 let paletteSize = 6;
+let paletteFormat = 'hex';
 let toastTimeoutId = null;
 
 function randomHexColor() {
 	const value = Math.floor(Math.random() * 0xffffff);
 	return `#${value.toString(16).padStart(6, '0').toUpperCase()}`;
+}
+
+function hslToHex(hue, saturation, lightness) {
+	const normalizedSaturation = saturation / 100;
+	const normalizedLightness = lightness / 100;
+
+	const chroma = (1 - Math.abs(2 * normalizedLightness - 1)) * normalizedSaturation;
+	const scaledHue = hue / 60;
+	const intermediate = chroma * (1 - Math.abs((scaledHue % 2) - 1));
+
+	let red = 0;
+	let green = 0;
+	let blue = 0;
+
+	if (scaledHue >= 0 && scaledHue < 1) {
+		red = chroma;
+		green = intermediate;
+	} else if (scaledHue >= 1 && scaledHue < 2) {
+		red = intermediate;
+		green = chroma;
+	} else if (scaledHue >= 2 && scaledHue < 3) {
+		green = chroma;
+		blue = intermediate;
+	} else if (scaledHue >= 3 && scaledHue < 4) {
+		green = intermediate;
+		blue = chroma;
+	} else if (scaledHue >= 4 && scaledHue < 5) {
+		red = intermediate;
+		blue = chroma;
+	} else {
+		red = chroma;
+		blue = intermediate;
+	}
+
+	const match = normalizedLightness - chroma / 2;
+	const toHex = (value) => Math.round((value + match) * 255).toString(16).padStart(2, '0').toUpperCase();
+
+	return `#${toHex(red)}${toHex(green)}${toHex(blue)}`;
+}
+
+function randomHslBasedColor() {
+	const hue = Math.floor(Math.random() * 360);
+	const saturation = 55 + Math.floor(Math.random() * 35);
+	const lightness = 35 + Math.floor(Math.random() * 35);
+	return hslToHex(hue, saturation, lightness);
+}
+
+function randomColorByFormat() {
+	if (paletteFormat === 'hsl') {
+		return randomHslBasedColor();
+	}
+
+	return randomHexColor();
+}
+
+function getDisplayColor(hexColor) {
+	if (paletteFormat === 'hsl') {
+		return hexToHsl(hexColor).replace(/\n/g, ' ');
+	}
+
+	return hexColor;
 }
 
 function hexToHsl(hexColor) {
@@ -55,7 +117,7 @@ function buildPalette() {
 
 		for (let index = 0; index < paletteSize; index += 1) {
 			const existingColor = currentPalette[index];
-			resizedPalette.push(existingColor || randomHexColor());
+			resizedPalette.push(existingColor || randomColorByFormat());
 		}
 
 		currentPalette = resizedPalette;
@@ -73,7 +135,7 @@ function buildPalette() {
 		if (lockedColors.has(index)) {
 			return color;
 		}
-		return randomHexColor();
+		return randomColorByFormat();
 	});
 }
 
@@ -110,6 +172,7 @@ function renderPalette() {
 		const hexLabel = document.createElement('p');
 		hexLabel.className = 'color-format-label';
 		hexLabel.textContent = 'HEX';
+		hexLabel.classList.toggle('color-format-label-active', paletteFormat === 'hex');
 
 		const hexValue = document.createElement('p');
 		hexValue.className = 'color-format-value';
@@ -118,6 +181,7 @@ function renderPalette() {
 		const hslLabel = document.createElement('p');
 		hslLabel.className = 'color-format-label';
 		hslLabel.textContent = 'HSL';
+		hslLabel.classList.toggle('color-format-label-active', paletteFormat === 'hsl');
 
 		const hslValue = document.createElement('p');
 		hslValue.className = 'color-format-value';
@@ -138,12 +202,13 @@ function renderPalette() {
 		colorMeta.appendChild(hslValue);
 
 		card.style.cursor = 'pointer';
-		card.setAttribute('title', `Clic para copiar ${color}`);
+		const displayColor = getDisplayColor(color);
+		card.setAttribute('title', `Clic para copiar ${displayColor}`);
 		card.addEventListener('click', (event) => {
 			if (event.target.closest('.lock-btn')) {
 				return;
 			}
-			copyColorToClipboard(color);
+			copyColorToClipboard(displayColor);
 		});
 
 		card.appendChild(preview);
@@ -230,6 +295,17 @@ function updateQuantity() {
 	showToast(`Cantidad actualizada a ${paletteSize} colores`);
 }
 
+function updateFormat() {
+	const select = document.getElementById('formatSelect');
+	if (select) {
+		paletteFormat = select.value === 'hsl' ? 'hsl' : 'hex';
+	}
+
+	buildPalette();
+	renderPalette();
+	showToast(`Formato actual: ${paletteFormat.toUpperCase()}`);
+}
+
 function downloadPalette() {
 	const lines = currentPalette.map((color, index) => {
 		const hsl = hexToHsl(color).replace(/\n/g, ' ');
@@ -255,9 +331,11 @@ function downloadPalette() {
 
 window.generate = generate;
 window.updateQuantity = updateQuantity;
+window.updateFormat = updateFormat;
 window.downloadPalette = downloadPalette;
 
 document.addEventListener('DOMContentLoaded', () => {
+	updateFormat();
 	updateQuantity();
 	generate();
 });

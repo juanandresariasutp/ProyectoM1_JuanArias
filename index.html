@@ -47,6 +47,10 @@
             <div class="palette-panel">
                 <div class="controls">
                     <button class="btn-control" onclick="generate()">Generar Paleta 🛠️</button>
+                    <select class="btn-control" id="formatSelect" onchange="updateFormat()">
+                        <option value="hex" selected>Formato: HEX</option>
+                        <option value="hsl">Formato: HSL</option>
+                    </select>
                     <select class="btn-control" id="quantitySelect" onchange="updateQuantity()">
                         <option value="6" selected>Cantidad colores: 6</option>
                         <option value="8">Cantidad colores: 8</option>
