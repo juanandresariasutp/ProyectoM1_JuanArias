@@ -270,6 +270,90 @@ header {
     transform: translateY(0);
 }
 
+#ejemplo-visual {
+    max-width: 1200px;
+    margin: 40px auto 0;
+    padding: 0 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 2rem;
+    align-items: center;
+}
+
+.preview-content h2 {
+    font-family: var(--fuente-titulo);
+    color: var(--color-texto-principal);
+    font-size: clamp(2.4rem, 5vw, 4.2rem);
+    line-height: 1;
+    margin: 0 0 1rem;
+}
+
+.preview-content p {
+    font-family: var(--fuente-parrafo);
+    color: var(--color-texto-principal);
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin: 0 0 1.2rem;
+    max-width: 380px;
+}
+
+.preview-mockup {
+    display: flex;
+    justify-content: center;
+}
+
+.mockup-shell {
+    width: 100%;
+    max-width: 640px;
+    min-height: 420px;
+    background: var(--color-oscuro-fuerte);
+    border-radius: 12px;
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.mockup-header,
+.mockup-banner,
+.mockup-block,
+.mockup-column-right,
+.mockup-footer {
+    border-radius: var(--borde-redondeado);
+    transition: background-color 0.25s ease;
+}
+
+.mockup-header {
+    height: 56px;
+}
+
+.mockup-banner {
+    height: 40px;
+    width: 58%;
+    margin: 0 auto;
+}
+
+.mockup-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    flex: 1;
+}
+
+.mockup-column-left {
+    display: grid;
+    grid-template-rows: 1fr 0.7fr;
+    gap: 0.75rem;
+}
+
+.mockup-column-right {
+    min-height: 210px;
+}
+
+.mockup-footer {
+    height: 52px;
+}
+
 .fundamentos-section {
     background-color: var(--color-fondo-contenedor);
     border-radius: 1rem;
@@ -544,6 +628,25 @@ footer {
         padding: 0.5rem;
     }
 
+    #ejemplo-visual {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+    }
+
+    .preview-content {
+        text-align: center;
+    }
+
+    .preview-content p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .preview-content .btn-control {
+        margin: 0 auto;
+        display: inline-block;
+    }
+
     .fundamentos-section {
         max-width: 90%;
         gap: 0px;
@@ -613,6 +716,10 @@ footer {
         margin: 0 auto;
         line-height: 1.1;
         margin-bottom: 12px;
+    }
+
+    .mockup-shell {
+        min-height: 340px;
     }
 }
 

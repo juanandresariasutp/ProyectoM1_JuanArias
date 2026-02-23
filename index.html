@@ -68,14 +68,26 @@
         </section>
 
         <section id="ejemplo-visual">
-            <div class="content">
+            <div class="preview-content">
                 <h2>Ejemplo Visual</h2>
-                <p>Te brindamos una representación real...</p>
-                <button aria-label="Generar nueva paleta">
-
+                <p>Te brindamos una representación real de como se vería tu paleta de colores en un entorno real.</p>
+                <button class="btn-control" type="button" onclick="generate()" aria-label="Generar nueva paleta">Generar</button>
             </div>
-            <figure class="preview-mockup">
-            </figure>
+
+            <div class="preview-mockup" aria-hidden="true">
+                <div class="mockup-shell" id="visualExampleContainer">
+                    <div class="mockup-header" data-preview-color="0"></div>
+                    <div class="mockup-banner" data-preview-color="1"></div>
+                    <div class="mockup-body">
+                        <div class="mockup-column-left">
+                            <div class="mockup-block" data-preview-color="2"></div>
+                            <div class="mockup-block" data-preview-color="3"></div>
+                        </div>
+                        <div class="mockup-column-right" data-preview-color="4"></div>
+                    </div>
+                    <div class="mockup-footer" data-preview-color="5"></div>
+                </div>
+            </div>
         </section>
 
         <section class="fundamentos-section" id="fundamentos">

@@ -150,6 +150,25 @@ function renderPalette() {
 		card.appendChild(colorMeta);
 		container.appendChild(card);
 	});
+
+	updateVisualExample();
+}
+
+function updateVisualExample() {
+	if (!currentPalette.length) {
+		return;
+	}
+
+	const previewBlocks = document.querySelectorAll('[data-preview-color]');
+	if (!previewBlocks.length) {
+		return;
+	}
+
+	previewBlocks.forEach((block) => {
+		const index = Number(block.dataset.previewColor) || 0;
+		const color = currentPalette[index % currentPalette.length];
+		block.style.backgroundColor = color;
+	});
 }
 
 function copyColorToClipboard(color) {
