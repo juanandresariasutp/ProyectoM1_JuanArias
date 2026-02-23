@@ -231,28 +231,35 @@ header {
     background: var(--color-azul-hover);
 }
 
-#quantitySelect.btn-control,
-#formatSelect.btn-control {
-    text-align: left;
-    min-width: 130px;
-    padding-right: 0.5rem;
-    border: 1px solid transparent;
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-    background-size: 1.2rem;
+.control-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px;
+    border-radius: 999px;
+    background: var(--color-oscuro-fuerte);
 }
 
-#quantitySelect.btn-control:hover,
-#formatSelect.btn-control:hover {
-    background-color: var(--color-azul-hover);
+.control-option {
+    border: none;
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-family: var(--fuente-parrafo);
+    font-size: 0.95rem;
+    color: var(--color-texto-sobre-oscuro);
+    background: transparent;
+    cursor: pointer;
 }
 
-#quantitySelect.btn-control:focus,
-#formatSelect.btn-control:focus {
-    outline: none;
-    background-color: var(--color-oscuro-fuerte);
-    border-color: var(--color-azul-interaccion);
+.control-option:hover {
+    background: rgba(255, 255, 255, 0.12);
 }
+
+.control-option.is-active {
+    background: var(--color-naranja-principal);
+    color: var(--color-texto-sobre-oscuro);
+}
+
 
 .palette-toast {
     position: fixed;

@@ -70,6 +70,19 @@ function getDisplayColor(hexColor) {
 	return hexColor;
 }
 
+function syncControlGroup(controlName, value) {
+	const group = document.querySelector(`.control-group[data-control="${controlName}"]`);
+	if (!group) {
+		return;
+	}
+
+	group.querySelectorAll('.control-option').forEach((button) => {
+		const isActive = button.dataset.value === String(value);
+		button.classList.toggle('is-active', isActive);
+		button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+	});
+}
+
 function hexToHsl(hexColor) {
 	const hex = hexColor.replace('#', '');
 	const red = parseInt(hex.substring(0, 2), 16) / 255;
@@ -284,26 +297,28 @@ function generate() {
 	showToast(`Nueva paleta generada (${paletteSize} colores)`);
 }
 
-function updateQuantity() {
-	const select = document.getElementById('quantitySelect');
-	if (select) {
-		paletteSize = Number(select.value) || 6;
-	}
+function setQuantity(value, silent = false) {
+	paletteSize = Number(value) || 6;
+	syncControlGroup('quantity', paletteSize);
 
 	buildPalette();
 	renderPalette();
-	showToast(`Cantidad actualizada a ${paletteSize} colores`);
+
+	if (!silent) {
+		showToast(`Cantidad actualizada a ${paletteSize} colores`);
+	}
 }
 
-function updateFormat() {
-	const select = document.getElementById('formatSelect');
-	if (select) {
-		paletteFormat = select.value === 'hsl' ? 'hsl' : 'hex';
-	}
+function setFormat(value, silent = false) {
+	paletteFormat = value === 'hsl' ? 'hsl' : 'hex';
+	syncControlGroup('format', paletteFormat);
 
 	buildPalette();
 	renderPalette();
-	showToast(`Formato actual: ${paletteFormat.toUpperCase()}`);
+
+	if (!silent) {
+		showToast(`Formato actual: ${paletteFormat.toUpperCase()}`);
+	}
 }
 
 function downloadPalette() {
@@ -330,13 +345,13 @@ function downloadPalette() {
 }
 
 window.generate = generate;
-window.updateQuantity = updateQuantity;
-window.updateFormat = updateFormat;
+window.setQuantity = setQuantity;
+window.setFormat = setFormat;
 window.downloadPalette = downloadPalette;
 
 document.addEventListener('DOMContentLoaded', () => {
-	updateFormat();
-	updateQuantity();
+	setFormat(paletteFormat, true);
+	setQuantity(paletteSize, true);
 	generate();
 });
 
