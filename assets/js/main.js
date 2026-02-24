@@ -166,31 +166,21 @@ function hexToHsl(hexColor) {
 }
 
 function buildPalette() {
-	if (currentPalette.length !== paletteSize) {
-		const resizedPalette = [];
-
-		for (let index = 0; index < paletteSize; index += 1) {
-			const existingColor = currentPalette[index];
-			resizedPalette.push(existingColor || randomColorByFormat());
+	Array.from(lockedColors).forEach((index) => {
+		if (index >= paletteSize) {
+			lockedColors.delete(index);
 		}
+	});
 
-		currentPalette = resizedPalette;
+	const nextPalette = [];
 
-		Array.from(lockedColors).forEach((index) => {
-			if (index >= paletteSize) {
-				lockedColors.delete(index);
-			}
-		});
-
-		return;
+	for (let index = 0; index < paletteSize; index += 1) {
+		const existingColor = currentPalette[index];
+		const keepLockedColor = lockedColors.has(index) && Boolean(existingColor);
+		nextPalette.push(keepLockedColor ? existingColor : randomColorByFormat());
 	}
 
-	currentPalette = currentPalette.map((color, index) => {
-		if (lockedColors.has(index)) {
-			return color;
-		}
-		return randomColorByFormat();
-	});
+	currentPalette = nextPalette;
 }
 
 function toggleLock(index) {
