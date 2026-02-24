@@ -490,6 +490,41 @@ function setupClearSavedModal() {
 	});
 }
 
+function setupNavToggle() {
+	const nav = document.querySelector('.main-nav');
+	if (!nav) {
+		return;
+	}
+
+	const toggle = nav.querySelector('.nav-toggle');
+	if (!toggle) {
+		return;
+	}
+
+	const navLinks = nav.querySelectorAll('.nav-links a');
+
+	const setOpen = (isOpen) => {
+		nav.classList.toggle('is-open', isOpen);
+		toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+		toggle.setAttribute('aria-label', isOpen ? 'Cerrar menu' : 'Abrir menu');
+	};
+
+	toggle.addEventListener('click', () => {
+		const nextState = !nav.classList.contains('is-open');
+		setOpen(nextState);
+	});
+
+	navLinks.forEach((link) => {
+		link.addEventListener('click', () => setOpen(false));
+	});
+
+	window.addEventListener('resize', () => {
+		if (window.innerWidth > 900) {
+			setOpen(false);
+		}
+	});
+}
+
 function downloadSavedPalette(palette) {
 	const lines = palette.colors.map((color, index) => {
 		const hex = getHexColorValue(color);
@@ -610,6 +645,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	renderPalette();
 	renderSavedPalettes();
 	setupClearSavedModal();
+		setupNavToggle();
 });
 
 
