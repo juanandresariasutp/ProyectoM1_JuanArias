@@ -52,7 +52,7 @@ function randomHslBasedColor() {
 	const hue = Math.floor(Math.random() * 360);
 	const saturation = 55 + Math.floor(Math.random() * 35);
 	const lightness = 35 + Math.floor(Math.random() * 35);
-	return hslToHex(hue, saturation, lightness);
+	return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
 }
 
 function randomColorByFormat() {
@@ -65,10 +65,48 @@ function randomColorByFormat() {
 
 function getDisplayColor(hexColor) {
 	if (paletteFormat === 'hsl') {
-		return hexToHsl(hexColor).replace(/\n/g, ' ');
+		return isHslColor(hexColor) ? hexColor : hexToHsl(hexColor);
 	}
 
 	return hexColor;
+}
+
+function isHslColor(color) {
+	return typeof color === 'string' && color.trim().toLowerCase().startsWith('hsl(');
+}
+
+function parseHslColor(hslColor) {
+	const match = hslColor.trim().match(/^hsl\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*\)$/i);
+	if (!match) {
+		return null;
+	}
+
+	const hue = Number(match[1]);
+	const saturation = Number(match[2]);
+	const lightness = Number(match[3]);
+
+	if (hue > 360 || saturation > 100 || lightness > 100) {
+		return null;
+	}
+
+	return { hue, saturation, lightness };
+}
+
+function hslStringToHex(hslColor) {
+	const parsed = parseHslColor(hslColor);
+	if (!parsed) {
+		return '#000000';
+	}
+
+	return hslToHex(parsed.hue, parsed.saturation, parsed.lightness);
+}
+
+function getHexColorValue(color) {
+	return isHslColor(color) ? hslStringToHex(color) : color;
+}
+
+function getHslColorValue(color) {
+	return isHslColor(color) ? color : hexToHsl(color);
 }
 
 function syncControlGroup(controlName, value) {
@@ -122,7 +160,7 @@ function hexToHsl(hexColor) {
 	const satPercent = Math.round(saturation * 100);
 	const lightPercent = Math.round(lightness * 100);
 
-	return `hsl(${hue},\n${satPercent}%,\n${lightPercent}%)`;
+	return `hsl(${hue}, ${satPercent}%, ${lightPercent}%)`;
 }
 
 function buildPalette() {
@@ -199,7 +237,7 @@ function renderPalette() {
 
 		const hexValue = document.createElement('p');
 		hexValue.className = 'color-format-value';
-		hexValue.textContent = color;
+		hexValue.textContent = getHexColorValue(color);
 
 		const hslLabel = document.createElement('p');
 		hslLabel.className = 'color-format-label';
@@ -209,7 +247,7 @@ function renderPalette() {
 		const hslValue = document.createElement('p');
 		hslValue.className = 'color-format-value';
 		hslValue.classList.add('color-format-value-hsl');
-		hslValue.textContent = hexToHsl(color);
+		hslValue.textContent = getHslColorValue(color);
 
 		const lockBtn = document.createElement('button');
 		lockBtn.className = 'lock-btn';
@@ -387,8 +425,9 @@ function clearSavedPalettes() {
 
 function downloadSavedPalette(palette) {
 	const lines = palette.colors.map((color, index) => {
-		const hsl = hexToHsl(color).replace(/\n/g, ' ');
-		return `Color ${index + 1}\nHEX: ${color}\nHSL: ${hsl}\n`;
+		const hex = getHexColorValue(color);
+		const hsl = getHslColorValue(color);
+		return `Color ${index + 1}\nHEX: ${hex}\nHSL: ${hsl}\n`;
 	});
 
 	const header = `ColorFly Studio — Paleta guardada (${palette.format.toUpperCase()})\n${'─'.repeat(40)}\n\n`;
@@ -468,8 +507,9 @@ function setFormat(value, silent = false) {
 
 function downloadPalette() {
 	const lines = currentPalette.map((color, index) => {
-		const hsl = hexToHsl(color).replace(/\n/g, ' ');
-		return `Color ${index + 1}\nHEX: ${color}\nHSL: ${hsl}\n`;
+		const hex = getHexColorValue(color);
+		const hsl = getHslColorValue(color);
+		return `Color ${index + 1}\nHEX: ${hex}\nHSL: ${hsl}\n`;
 	});
 
 	const header = `ColorFly Studio — Paleta generada el ${new Date().toLocaleDateString('es-ES')}\n${'─'.repeat(40)}\n\n`;
