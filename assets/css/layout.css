@@ -1031,6 +1031,30 @@ footer .footer-logo a {
 }
 
 @media (max-width: 480px) {
+    .controls {
+        display: grid;
+        gap: 10px;
+        justify-items: center;
+    }
+
+    .control-group {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .control-option {
+        flex: 1 1 auto;
+        font-size: 0.9rem;
+    }
+
+    .btn-control-generar,
+    .btn-control-guardar {
+        width: 100%;
+        max-width: 260px;
+        font-size: 1rem;
+    }
+
     .palette-grid {
         grid-template-columns: repeat(2, 1fr);
     }
