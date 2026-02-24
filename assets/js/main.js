@@ -4,6 +4,8 @@ let paletteSize = 6;
 let paletteFormat = 'hex';
 let toastTimeoutId = null;
 const SAVED_PALETTES_KEY = 'colorfly.savedPalettes';
+let clearSavedModalElement = null;
+let clearSavedModalLastFocus = null;
 
 function randomHexColor() {
 	const value = Math.floor(Math.random() * 0xffffff);
@@ -423,6 +425,81 @@ function clearSavedPalettes() {
 	showToast('Paletas guardadas eliminadas');
 }
 
+function getClearSavedModalElements() {
+	if (!clearSavedModalElement) {
+		clearSavedModalElement = document.getElementById('clearSavedModal');
+	}
+
+	if (!clearSavedModalElement) {
+		return {};
+	}
+
+	return {
+		modal: clearSavedModalElement,
+		confirmBtn: document.getElementById('confirmClearSavedBtn'),
+		cancelBtn: document.getElementById('cancelClearSavedBtn')
+	};
+}
+
+function closeClearSavedPalettesModal() {
+	const { modal } = getClearSavedModalElements();
+	if (!modal) {
+		return;
+	}
+
+	modal.hidden = true;
+	if (clearSavedModalLastFocus && typeof clearSavedModalLastFocus.focus === 'function') {
+		clearSavedModalLastFocus.focus();
+	}
+	clearSavedModalLastFocus = null;
+}
+
+function confirmClearSavedPalettes() {
+	clearSavedPalettes();
+	closeClearSavedPalettesModal();
+}
+
+function openClearSavedPalettesModal() {
+	const { modal, confirmBtn } = getClearSavedModalElements();
+	if (!modal) {
+		clearSavedPalettes();
+		return;
+	}
+
+	clearSavedModalLastFocus = document.activeElement;
+	modal.hidden = false;
+	if (confirmBtn && typeof confirmBtn.focus === 'function') {
+		confirmBtn.focus();
+	}
+}
+
+function setupClearSavedModal() {
+	const { modal, confirmBtn, cancelBtn } = getClearSavedModalElements();
+	if (!modal) {
+		return;
+	}
+
+	if (confirmBtn) {
+		confirmBtn.addEventListener('click', confirmClearSavedPalettes);
+	}
+
+	if (cancelBtn) {
+		cancelBtn.addEventListener('click', closeClearSavedPalettesModal);
+	}
+
+	modal.addEventListener('click', (event) => {
+		if (event.target.dataset.modalClose === 'true') {
+			closeClearSavedPalettesModal();
+		}
+	});
+
+	document.addEventListener('keydown', (event) => {
+		if (event.key === 'Escape' && clearSavedModalElement && !clearSavedModalElement.hidden) {
+			closeClearSavedPalettesModal();
+		}
+	});
+}
+
 function downloadSavedPalette(palette) {
 	const lines = palette.colors.map((color, index) => {
 		const hex = getHexColorValue(color);
@@ -535,12 +612,14 @@ window.setFormat = setFormat;
 window.downloadPalette = downloadPalette;
 window.savePalette = savePalette;
 window.clearSavedPalettes = clearSavedPalettes;
+window.openClearSavedPalettesModal = openClearSavedPalettesModal;
 
 document.addEventListener('DOMContentLoaded', () => {
 	setFormat(paletteFormat, true);
 	setQuantity(paletteSize, true);
 	renderPalette();
 	renderSavedPalettes();
+	setupClearSavedModal();
 });
 
 

@@ -505,7 +505,7 @@ header {
 
 .saved-delete-btn {
     border: none;
-    border-radius: 999px;
+    border-radius: 8px;
     padding: 6px 12px;
     font-family: var(--fuente-parrafo);
     font-size: 0.9rem;
@@ -542,6 +542,56 @@ header {
 
 .saved-download-btn:hover {
     background: var(--color-azul-hover);
+}
+
+.confirm-modal[hidden] {
+    display: none;
+}
+
+.confirm-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+}
+
+.confirm-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--color-oscuro-fuerte);
+    opacity: 0.55;
+}
+
+.confirm-modal__content {
+    position: relative;
+    width: min(100%, 460px);
+    background: var(--color-fondo-contenedor);
+    border-radius: 14px;
+    border: 1px solid var(--color-borde-suave);
+    padding: 1.2rem;
+}
+
+.confirm-modal__content h3 {
+    margin: 0;
+    color: var(--color-texto-principal);
+    font-family: var(--fuente-titulo);
+    font-size: 1.4rem;
+}
+
+.confirm-modal__content p {
+    margin: 0.75rem 0 0;
+    color: var(--color-texto-secundario);
+    font-family: var(--fuente-parrafo);
+    line-height: 1.45;
+}
+
+.confirm-modal__actions {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.6rem;
 }
 
 .fundamentos-section {

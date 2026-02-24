@@ -95,10 +95,22 @@
         <section id="paletas-guardadas">
             <div class="saved-header">
                 <h2>Paletas guardadas</h2>
-                <button class="btn-control" type="button" onclick="clearSavedPalettes()">Limpiar guardadas</button>
+                <button class="btn-control" type="button" onclick="openClearSavedPalettesModal()">Limpiar guardadas</button>
             </div>
             <div class="saved-list" id="savedPalettesList"></div>
         </section>
+
+        <div id="clearSavedModal" class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="clearSavedModalTitle" aria-describedby="clearSavedModalDescription" hidden>
+            <div class="confirm-modal__backdrop" data-modal-close="true"></div>
+            <div class="confirm-modal__content" role="document">
+                <h3 id="clearSavedModalTitle">¿Deseas borrar todas las paletas guardadas?</h3>
+                <p id="clearSavedModalDescription">Esta acción eliminará permanentemente todas tus paletas guardadas.</p>
+                <div class="confirm-modal__actions">
+                    <button id="cancelClearSavedBtn" class="btn-control" type="button">Cancelar</button>
+                    <button id="confirmClearSavedBtn" class="saved-delete-btn" type="button">Sí, borrar todo</button>
+                </div>
+            </div>
+        </div>
 
         <section class="fundamentos-section" id="fundamentos">
             <img src="./assets/images//circulo-colores.svg" alt="Circulo cromático" class="fundamentos-img">
