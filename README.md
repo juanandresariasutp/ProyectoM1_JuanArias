@@ -54,6 +54,12 @@ Generador de paletas de colores para UI/branding con vista previa visual, bloque
 
 ## 👤 Manual de usuario
 
+### 📸 Screenshots del flujo principal
+
+Puedes ver las capturas del flujo principal en este PDF:
+
+🔗 [PDF de screenshots del flujo principal](https://drive.google.com/file/d/1bvIH_Qtkpu4i_k5CYeIScyY2HDicFybR/view?usp=sharing)
+
 ### 🎯 Flujo básico de uso
 
 #### 1️⃣ Configurar y generar la paleta
